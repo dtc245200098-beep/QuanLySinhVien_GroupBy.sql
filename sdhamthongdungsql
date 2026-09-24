@@ -1,56 +1,9 @@
 USE quanlysinhvien;
 GO
 
+-- =============================================
+-- 1. Hiển thị tất cả các thông tin môn học (bảng Subject) có credit lớn nhất
 
-SELECT Address,
-       COUNT(StudentId) AS N'SoLuongHocVien'
-FROM Student
-GROUP BY Address;
-
--- 2. Tính điểm trung bình của từng sinh viên
-SELECT 
-    S.StudentId,
-    S.StudentName,
-    AVG(M.Mark) AS DiemTrungBinh
-FROM Student S
-JOIN Mark M
-    ON S.StudentId = M.StudentId
-GROUP BY 
-    S.StudentId,
-    S.StudentName;
-
--- 3. Hiển thị sinh viên có điểm trung bình lớn hơn 15 (nếu có)
-SELECT 
-    S.StudentId,
-    S.StudentName,
-    AVG(M.Mark) AS DiemTrungBinh
-FROM Student S
-JOIN Mark M
-    ON S.StudentId = M.StudentId
-GROUP BY 
-    S.StudentId,
-    S.StudentName
-HAVING AVG(M.Mark) > 15;
-
--- 4. Hiển thị sinh viên có điểm trung bình lớn nhất/cao nhất bằng hàm ALL
-SELECT 
-    S.StudentId,
-    S.StudentName,
-    AVG(M.Mark) AS DiemTrungBinh
-FROM Student S
-JOIN Mark M
-    ON S.StudentId = M.StudentId
-GROUP BY 
-    S.StudentId,
-    S.StudentName
-HAVING AVG(M.Mark) >= ALL
-(
-    SELECT AVG(Mark)
-    FROM Mark
-    GROUP BY StudentId
-); 
-bổ sung
--- 5. Hiển thị tất cả các thông tin môn học (bảng Subject) có credit lớn nhất
 SELECT *
 FROM Subject
 WHERE Credit = (
@@ -58,7 +11,9 @@ WHERE Credit = (
     FROM Subject
 );
 
--- 6. Hiển thị các thông tin môn học có điểm thi lớn nhất
+-- =============================================
+-- 2. Hiển thị các thông tin môn học có điểm thi lớn nhất
+-- =============================================
 SELECT DISTINCT Sub.*
 FROM Subject Sub
 JOIN Mark M ON Sub.SubId = M.SubId
@@ -67,7 +22,9 @@ WHERE M.Mark = (
     FROM Mark
 );
 
--- 7. Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
+-- =============================================
+-- 3. Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
+-- =============================================
 SELECT 
     S.StudentId,
     S.StudentName,
